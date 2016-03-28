@@ -1,0 +1,7 @@
+# This is a comment
+## this is also a comment
+ # this is also another comment
+ 
+org.cm2c.linecount = 10
+org.cm2c.time = 540
+org.cm2c.filename = /usr/local/bin/coco
