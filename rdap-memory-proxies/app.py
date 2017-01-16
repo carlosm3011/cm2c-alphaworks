@@ -1,17 +1,21 @@
 ####################################################
-#
-#
+# RDAP in-memory temp storage front end
+# (c) carlos@xt6.us
 ####################################################
 
 
 from flask import Flask
 from flask import render_template
-from pymemcache.client.base import Client
-from rdap import rdap_client
+# from pymemcache.client.base import Client
+import redis
+# from rdap import rdap_client
+from rdapcache import RDAPCache
 import time
 
 app = Flask(__name__)
-mcc = Client(("memcached", 11211))
+# mcc = Client(("memcached", 11211))
+mcc = redis.Redis(host="redis")
+rc = RDAPCache()
 start_time = time.time()
 
 @app.route('/')
@@ -41,21 +45,7 @@ def route_stats():
 def route_rdap_ip(pfx):
     if pfx:
         t0 = time.time()
-        mcc.add("queries",0)
-        mcc.incr("queries",1)
-        rdap_ans = mcc.get(pfx)
-        if rdap_ans:
-            mcc.add("hits",0)
-            mcc.incr("hits",1)
-            # return rdap_ans
-        else:
-            # return "IP address is %s" % (ipaddr)
-            mcc.add("misses",0)
-            mcc.incr("misses",1)
-            rdap_ans = rdap_client("https://rdap.lacnic.net/rdap/ip/%s" % pfx)
-            if rdap_ans != "RDAP ERROR":
-                mcc.set(pfx, rdap_ans)
-            # return rdap_ans
+        rdap_ans = rc.get_and_cache(pfx)
         rsp = {"json": rdap_ans.decode('ascii', 'ignore'), "time": time.time()-t0}
         return render_template("response.html", rsp=rsp)
     else:

@@ -8,3 +8,5 @@ services:
       - .:/code
   memcached:
     image: "memcached:alpine"
+  redis:
+    image: "redis:3.0-alpine"
