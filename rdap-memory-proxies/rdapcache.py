@@ -28,8 +28,8 @@ class RDAPCache(object):
                 return rdap_ans
         else:
             return False
-        
     # end def 
+    
 # end class
 
 if __name__ == "__main__":
