@@ -1,0 +1,16 @@
+---
+- hosts: labs_cloud
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - include: tasks/users.yml
+
+- hosts: labs_mvd
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - include: tasks/users.yml

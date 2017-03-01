@@ -1,0 +1,29 @@
+- name: Make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have sudo rights
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Create user carlos
+  user:
+    name: carlos
+    groups: wheel
+    update_password: always
+    password: $6$mzJduKlT$KMrq/o2mlTMdcw9qSbQ8/GQJOzHnT24pX1ADsBlMtcV6EFpYOspehD4bvC3QAh8ZvemNiV11vGExOk8p.N4PS1
+    shell: /bin/bash
+
+- name: Update public keys
+  authorized_key:
+     user: carlos
+     state: present
+     key: "{{ item }}"
+  with_file:
+     -  ./pubkeys/carlosm-lacnic2.pub
+     -  ./pubkeys/carlosm-lacnic-ed25519.pub

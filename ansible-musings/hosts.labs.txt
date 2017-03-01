@@ -1,0 +1,9 @@
+[labs_cloud]
+itchy.labs.lacnic.net
+stratus.labs.lacnic.net
+
+[labs_mvd]
+mvuy10.labs.lacnic.net
+mvuy11.labs.lacnic.net
+mvuy12.labs.lacnic.net
+mvuy.labs.lacnic.net:1352

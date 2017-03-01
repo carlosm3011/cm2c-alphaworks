@@ -1,0 +1,27 @@
+---
+- hosts: all
+  remote_user: carlos
+  gather_facts: yes
+  tasks:
+    - group_by:
+       key: "{{ ansible_os_family | lower }}"
+
+- hosts: debian
+  gather_facts: no
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Update APT cache
+    apt:
+      update_cache: yes
+
+- hosts: ubuntu
+  gather_facts: no
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Update APT cache
+    apt:
+      update_cache: yes
