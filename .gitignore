@@ -1,3 +1,7 @@
+# Ansible Retry
+*.retry
+
+
 Cargo.lock
 # temps
 tmp/*txt

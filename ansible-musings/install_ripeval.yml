@@ -1,0 +1,71 @@
+---
+- hosts: ripeval
+  remote_user: carlos
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Create user ripeval
+    user:
+      name: ripeval
+      state: present
+      shell: /bin/bash
+      password: $6$oooo$xxx
+
+  - name: Update APT cache and install packages
+    apt:
+      update_cache: no
+      state: present
+      name: "{{ item }}"
+    with_items:
+        - rsync
+        - sudo
+        - openjdk-8-jdk
+        - python-pip
+        - python-virtualenv
+        - wget
+        - curl
+
+  #- name: Update python dependencies
+  #  pip:
+  #    name: requests[security]
+
+- hosts: ripeval
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+  become_user: ripeval
+  tasks:
+  - name: Create _downloads directory
+    file:
+      path: /home/ripeval/_downloads
+      owner: ripeval
+      group: ripeval
+      mode: 0755
+      state: directory
+  - name: Download RIPE Validator tar file
+    shell:
+      chdir: /home/ripeval/_downloads
+      cmd: wget -O rvl.tar.gz https://rrdp.ripe.net/certification/content/static/validator/rpki-validator-app-2.23-dist.tar.gz
+  - name: Untar RIPE Validator tar file
+    unarchive:
+      src: /home/ripeval/_downloads/rvl.tar.gz
+      dest: /home/ripeval
+      remote_src: True
+      owner: ripeval
+      mode: 0755
+  - name: Proper symlink for latest version
+    file:
+      path: /home/ripeval/ripeval_latest
+      src: /home/ripeval/rpki-validator-app-2.23
+      state: link
+  - name: Copy ARIN's TAL to remote
+    copy:
+      src: assets/arin.tal
+      dst: /home/ripeval/ripeval_latest/conf/tal
+    notify: Restart RIPE Validator
+  - handlers:
+    name: Restart RIPE Validator
+    shell:
+      chdir: /home/ripeval
+      cmd: ./ripeval_latest/rpki-validator.sh start
