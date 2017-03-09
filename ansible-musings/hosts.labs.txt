@@ -16,8 +16,9 @@ ham01.xt6.us
 coati.xt6.us
 
 [ripeval]
-mvuy10.labs.lacnic.net
+; mvuy10.labs.lacnic.net
 mvuy13.labs.lacnic.net
+itchy.labs.lacnic.net
 
 [vmhosts]
 pitagoras.labs.lacnic.net

@@ -14,7 +14,7 @@
 
   - name: Update APT cache and install packages
     apt:
-      update_cache: no
+      update_cache: yes
       state: present
       name: "{{ item }}"
     with_items:
@@ -62,10 +62,21 @@
   - name: Copy ARIN's TAL to remote
     copy:
       src: assets/arin.tal
-      dst: /home/ripeval/ripeval_latest/conf/tal
-    notify: Restart RIPE Validator
-  - handlers:
-    name: Restart RIPE Validator
-    shell:
-      chdir: /home/ripeval
-      cmd: ./ripeval_latest/rpki-validator.sh start
+      dest: /home/ripeval/ripeval_latest/conf/tal
+
+- hosts: ripeval
+  remote_user: carlos
+  become: yes
+  become_method: sudo
+  become_user: ripeval
+  tags:
+    - restarting
+  tasks:
+    - name: Restart RIPE Validator
+      shell: "{{ item }}"
+      register: salida
+      with_items:
+        - /home/ripeval/ripeval_latest/rpki-validator.sh stop
+        - /bin/echo Waiting... && /bin/sleep 2
+        - nohup /home/ripeval/ripeval_latest/rpki-validator.sh start
+    # - debug: var=salida
