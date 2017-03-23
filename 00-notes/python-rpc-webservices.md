@@ -3,6 +3,8 @@
 ## RPC / Remote objects
 - PyRO (Python Remote Objects)
   [http://pythonhosted.org/Pyro4/]
+- Circuits
+  [http://circuits.readthedocs.io/en/latest/]
 
 ## Webservices
 - Ladon
