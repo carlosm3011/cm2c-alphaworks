@@ -1,0 +1,4 @@
+pyopenssl
+gspread
+oauth2client==1.5.2
+ics
