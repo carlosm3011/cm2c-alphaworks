@@ -12,6 +12,7 @@ import codecs
 import unicodedata
 from oauth2client.client import SignedJwtAssertionCredentials
 from ics import Calendar,Event
+from unidecode import unidecode
 
 # parameters #######
 agenda_gsheet_name = "Propuesta Agenda LACNIC 27.xlsx"
@@ -34,13 +35,17 @@ for grow in gwsheet.get_all_records():
 			evt = Event()
 			# evt.name = unicodedata.normalize('NFKD', unicode(grow["DESC"]))
 			# evt.name = "Nombre evento"
-			evt.name = grow["DESC"].encode('ascii', 'replace')
+			# evt.name = grow["DESC"].encode('ascii', 'replace')
 			# evt.name = grow["DESC"]
+			evt.name = unidecode(grow['DESC'])
 			(t_begin, t_end) = grow["ICSTime"].split("-")
-			evt.begin = "%s %s:00" % (grow["ICSDate"], t_begin.strip())
-			evt.end = "%s %s:00" % (grow["ICSDate"], t_end.strip())
+			d_begin = "%sT%s:00-0300" % (grow["ICSDate"], t_begin.strip())
+			evt.begin = d_begin.replace(":","")
+			d_end = "%sT%s:00-0300" % (grow["ICSDate"], t_end.strip())
+			evt.end = d_end.replace(":","")
 			cal.events.append(evt)
-			print "Added %s starting %s ending %s" % (evt.name, evt.begin, t_end)
+			print "Added %s starting %s ending %s" % (evt.name, d_begin, d_end)
+			# print "Added %s, event %s" % (grow['DESC'],evt)
 		except:
 			print grow
 			raise
