@@ -16,6 +16,7 @@ from unidecode import unidecode
 
 # parameters #######
 agenda_gsheet_name = "Propuesta Agenda LACNIC 27.xlsx"
+utc_offset = "-0300"
 # end parameters ###
 
 json_key = json.load(open('lacnic-ics-agenda-8d9f8acc9f7b.json'))
@@ -38,10 +39,11 @@ for grow in gwsheet.get_all_records():
 			# evt.name = grow["DESC"].encode('ascii', 'replace')
 			# evt.name = grow["DESC"]
 			evt.name = unidecode(grow['DESC'])
-			(t_begin, t_end) = grow["ICSTime"].split("-")
-			d_begin = "%sT%s:00-0300" % (grow["ICSDate"], t_begin.strip())
+			evt.location = unidecode(grow['SALA'])
+			(t_begin, t_end) = grow["TIME"].split("-")
+			d_begin = "%sT%s:00%s" % (grow["ICSDate"], t_begin.strip(), utc_offset)
 			evt.begin = d_begin.replace(":","").replace(".","")
-			d_end = "%sT%s:00-0300" % (grow["ICSDate"], t_end.strip())
+			d_end = "%sT%s:00%s" % (grow["ICSDate"], t_end.strip(), utc_offset)
 			evt.end = d_end.replace(":","").replace(".","")
 			cal.events.append(evt)
 			print "Added %s starting %s ending %s" % (evt.name, d_begin, d_end)
