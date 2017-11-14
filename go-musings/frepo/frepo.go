@@ -1,3 +1,7 @@
+/*   FREPO: file repository manager
+ *   (c) Carlos Martinez, carlos@xt6.us
+ */
+
 package main
 
 import "fmt"
@@ -12,17 +16,17 @@ type Profile struct {
 	refresh int
 }
 
-func getFile( wp Profile ) []byte {
+func getFile( wp Profile ) bool {
 	// resp, err := http.Get("https://rdap.lacnic.net/rdap/ip/200.7.84.1")
 	resp, err := http.Get( "https://rdap.lacnic.net/rdap/ip/" + wp.nameTemplate )
     if err != nil {
         // handle error
 		fmt.Println("An error has ocurred!")
-		return False 
+		return false
     }
     defer resp.Body.Close()
     body, err := ioutil.ReadAll(resp.Body)    
-	return body
+	return true
 }
 
 func parseProfile() Profile {
@@ -43,9 +47,10 @@ func main() {
 
 	// update file repository
 
-	var b []byte
-	b = getFile( wProfile )
+	// var b []byte
+	b bool = getFile( wProfile )
 	
     fmt.Println(string(b))
 }
 
+/* --------------------------------------------------------------------------------- */
