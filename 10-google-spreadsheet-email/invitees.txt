@@ -1,6 +1,0 @@
-"Ariel Weher",""
-"Matias Comba",""
-"Luis Constanzo",""
-"Leandro Rios",""
-"Luciano Minuchin",""
-"Santiago Liz","sliz@riu.edu.ar"

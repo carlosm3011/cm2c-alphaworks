@@ -1,3 +1,0 @@
-Carlos Martinez,carlos@lacnic.net,aaaa1
-Gerardo Rada,gerardo@lacnic.net,abce3
-Agustin Formoso,agustin@lacnic.net,cococo5
