@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "lacnic-ics-agenda",
+  "private_key_id": "8d9f8acc9f7b40bd228e19bf62225ff8bd340f35",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDoVNk5yz8s1o64\nUGkxnZAHZhgBISGa/bVSUdh0LP32C4Gjd9ez8d6/HRs59qFxjlAxpDE9sHkvy/xQ\nutOIEkubw44s417l7B6DO6IvRMb+f4TePb5V53n6aGbeaGy8lpYFt/3BgcD4TPeO\ndGOk123EcH21hEOqAWzzDSBibcFQagNEL7zP0bbB5XZJFajzTfTXlZPIl8TlSP8f\n9KG9k+oF3nUo3lDDMzGn7kbRye+/arBWyq/JmAZjeqQUKV5PYF9FB+vYIcNipeSv\nv5GgZoy58nX5DarOk7Im29f9Utv2cn6+/hI7uzZK/MK3+0fwiHBtHJGfWeEVKbVJ\nISaOlAMLAgMBAAECggEAIRX8PWvBWmxPtNXWtTcgDL2wS3DhbUYWLVv0fE7v97sZ\nwiLN+BVIyGSnvPBve1FuADPGw2c/Stw82W5Rs34PgGYv+BqFKC8hBUVXym17/UBB\ntriKQ4eMamm1xJSQb6buRHA4VfdZeMLVOlc+3XnEawYuEMx+Kla7oj1LUFka/41j\n5Nx2xYUCGmg+XdMY1dBClmicEVJFPtVoGdz8BcWprCcyoM0KCNGZpSCmnyrjTVJ/\nCPR6UXNWiH+q+498CtSXc7AtXsNaOLFqsSY+QxXc7iyiedvGaobmqeN/SF4Nx+vP\n+8SHyGR14rebG9/C95VOPDQUbn/g1TA7RTSb1js0+QKBgQD19I6vEhstJe7F9pIH\nCo0crnN3njBLjJRs4gtPSdexvxXrnKDIIu4CPHDvAgUz7gLfXlTVX2daoglTQwm6\nkQ9YwAAKBJxiiJHrLww/kR9PVEI7/f89UwxeaM0MY7wxD3cAHlj5bvgl40+oZTgR\n1JJ1NieqkZ+6e8cmgIYvfovK9QKBgQDx0drUlA24EEFiuOVfjz+Ax3qHovKi0S98\nIFAFfc99mJTyxIHrinlJ5ZkNwbzuSFh5LwDw4a7D19/e+l1k+dlCozal3eymqKjv\nF2Zzn9sjuN3g/FaybqDGyaf1DLqDkakEP5XGrYpcDQIOkf3AGQu86H/e5CKs+YYY\nB3Mi3zvV/wKBgGgqhzOGS5Q3eITHBNmOkm0PRT/n8zRL+aCTq46NC5jwAOykjUO1\n529zAbF3/ZQcvYK0hOFJYpB0B9cHkVs+jG1eA6Y6hbEFfidI6bsST1xdpx+ZVzw1\nrAtf/1e79bwhfJjEQZKCeP4y403CcJi8mrqhkPMgcbGdMp8P18TNp47xAoGACm1s\nLEJ+HPPGfgVPDsHUkS8I35RtNgwjKg0Spkn4iofr1FQY7hk4hbE62lcCWJwSBJe8\nSKbSrGtAohLVuCb18WOsVZauP7mCH104879u6altF+iJrIQMtsW3Ul/MIyRCz4YW\nZUzSbIm7DvnIoWHzGaBE802PGTphR+P6WQSbRe0CgYEAiw8qsnpjaXvu0otmDT8h\nyMQ+5tShUOlSZBgQtIPpziZF/7GK7GBo+WpYt4huIVzuIhi//6qOht0xCA3pqcpF\nUm0jrRg5q/wQr/doSJfbGk6gHuPJxn9+maO/JFoHX2lhzDlaDZGamHotE/OtBaP0\nyMfIj6SQpWkoZBD2iA+rAzM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "agenda@lacnic-ics-agenda.iam.gserviceaccount.com",
+  "client_id": "103447766738109652253",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/agenda%40lacnic-ics-agenda.iam.gserviceaccount.com"
+}
