@@ -15,11 +15,14 @@ from ics import Calendar,Event
 from unidecode import unidecode
 
 # parameters #######
-agenda_gsheet_name = "Propuesta Agenda LACNIC 27.xlsx"
+# agenda_gsheet_name = "Propuesta Agenda LACNIC 27.xlsx"
+agenda_gsheet_name = "Detalle Agenda LACNIC 29.xlsx"
 utc_offset = "-0300"
 # end parameters ###
 
-json_key = json.load(open('lacnic-ics-agenda-8d9f8acc9f7b.json'))
+# json_key = json.load(open('lacnic-ics-agenda-8d9f8acc9f7b.json'))
+# json_key = json.load(open('lacnic-ics-agenda2-251a62df85c7.json'))
+json_key = json.load(open('client_secret_1.json'))
 scope = ['https://spreadsheets.google.com/feeds']
 credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'], scope)
 
