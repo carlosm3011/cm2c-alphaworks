@@ -1,0 +1,13 @@
+<h1><a href="/">¡Bienvenido!</a></h1>
+<p>¡Vamos a adivinar un numero!</p>
+
+<pre>
+<%= @fase.inspect %>
+</pre>
+
+<%= form_tag("/", method: "get") do %>
+    <%= label_tag(:guess, "Tu intento:") %>
+    <%= text_field_tag(:guess, "0") %>
+    <%= hidden_field_tag(:secreto, @secreto) %>
+    <%= submit_tag("¡Intentalo!") %>    
+<% end %>
