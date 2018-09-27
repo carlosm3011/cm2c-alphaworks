@@ -1,0 +1,23 @@
+xt6_jfk01:
+   host: jfk01.xt6.us
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+xt6_dfw01:
+   host: dfw01.xt6.us
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+xt6_ham01:
+   host: ham01.xt6.us
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+   
+xt6_atl01:
+   host: atl01.xt6.us
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
