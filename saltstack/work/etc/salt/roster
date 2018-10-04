@@ -21,3 +21,87 @@ xt6_atl01:
    user: carlos
    sudo: False
    priv: agent-forwarding
+
+lacnic_gru_milacnic:
+   host: milacnic.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_www:
+   host: www.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_lacnic.net:
+   host: lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_mail.lacnic.net:
+   host: mail.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_campus.lacnic.net:
+   host: campus.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_www2.lacnic.net:
+   host: www2.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_rpki-fe1.lacnic.net:
+   host: rpki-fe1.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_rpki-fe3.lacnic.net:
+   host: rpki-fe3.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_www3.lacnic.net:
+   host: www3.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_elecciones.lacnic.net:
+   host: elecciones.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_networking.lacnic.net:
+   host: elecciones.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_solicitudes.lacnic.net:
+   host: solicitudes.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_pagos.lacnic.net:
+   host: pagos.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding
+
+lacnic_gru_geofeeds.lacnic.net:
+   host: geofeeds.lacnic.net
+   user: carlos
+   sudo: False
+   priv: agent-forwarding

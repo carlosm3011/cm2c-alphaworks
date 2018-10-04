@@ -1,0 +1,110 @@
+lacnic_gru_mail.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+        nameserver 200.3.14.140
+lacnic_gru_elecciones.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+lacnic_gru_rpki-fe1.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+        nameserver 200.3.14.140
+lacnic_gru_www3.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver      200.3.14.11
+        nameserver      200.3.14.140
+lacnic_gru_networking.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+lacnic_gru_milacnic:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.140
+        nameserver 2001:13c7:7002:4128::140
+        nameserver 200.3.14.11
+lacnic_gru_rpki-fe3.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver      200.3.14.11
+        nameserver      200.3.14.140
+lacnic_gru_solicitudes.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+        nameserver 200.3.14.144
+lacnic_gru_campus.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 8.8.8.8
+        nameserver 8.8.4.4
+        #nameserver 200.3.14.11
+        #nameserver 200.3.14.140
+lacnic_gru_www2.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver	200.3.14.140
+        nameserver	200.3.14.11
+lacnic_gru_pagos.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+lacnic_gru_www:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+lacnic_gru_lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
+        nameserver 200.3.14.140
+lacnic_gru_geofeeds.lacnic.net:
+    ----------
+    retcode:
+        0
+    stderr:
+    stdout:
+        nameserver 200.3.14.11
