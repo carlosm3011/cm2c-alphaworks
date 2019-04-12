@@ -7,14 +7,20 @@ MONGO DB NOTES
 To start the shell: "mongo"
 
 Useful commands: 
+
+```
 use db, 
 show dbs, 
 show collections
+```
 
 Searches:
+
+```
 db.collection.find({query})
 db.collection.find({query}).count()
 db['collection'].find().limit(10)
+```
 
 # Creating a MongoDB Replica
 --
@@ -42,4 +48,9 @@ Statuses can be PRIMARY, RECOVERING, SECONDARY
 6. enable eventually consistent reads
 Run rs.slaveOk(true) once per shell session.
 
+
+# Dump and restore
+---
+
+Dumping and restore are the preferred mechanisms for performing MongoDB backups.
 
