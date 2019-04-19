@@ -70,3 +70,5 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 .Rproj.user
+netdata-20190416.db
+.vscode
