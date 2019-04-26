@@ -11,7 +11,7 @@ import logging
 import fire
 import collections
 
-dbfile = "data/netdata-20190325.db"
+dbfile = "../../data/netdata-latest.db"
 cc = 'AR'
 rir = 'lacnic'
 type = 'ipv4'
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     logging.debug("Finding RPKI invalid routes - 20190418")
 
     #
-    ndb = netdatadb("../30-routingtable_cc/data/netdata-20190416.db")
+    ndb = netdatadb(dbfile)
 
     # load roadata into pytricia
     logging.info("Loading ROAs into pytricia")
