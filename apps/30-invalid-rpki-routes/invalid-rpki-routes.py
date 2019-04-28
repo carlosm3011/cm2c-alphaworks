@@ -10,11 +10,13 @@ import sqlite3
 import logging
 import fire
 import collections
+import pysnooper
 
 dbfile = "../../data/netdata-latest.db"
-cc = 'AR'
+# cc = 'AR'
 rir = 'lacnic'
 type = 'ipv4'
+maxLen = 24
 
 class netdatadb:
 	def __init__(self, wdb):
@@ -31,6 +33,14 @@ class netdatadb:
 		self.cur.execute(wsql)
 		return self.cur
 	# end runsql
+
+    # def getOneValue(self, wsql):
+    #     self.cur = self.con.cursor()
+    #     self.cur.execute(wsql)
+    #     for x in self.cur:
+    #         val = x.pop(0)
+    #     return val
+    # # end getOneValue
 # end netdatadb
 
 class counters:
@@ -51,9 +61,21 @@ class counters:
 # end counters
 
 # begin assignValidityStatus
-def assignValidityStatus(wroas, wpfx):
-    vs = "valid"
+# @pysnooper.snoop(depth=2)
+def assignValidityStatus(wroas_trie, wpfx):
+    vs = "unknown"
     
+    roas = wroas_trie.get(wpfx['prefix'], None)
+    if roas == None:
+        return vs
+
+    for roa in roas:
+        if roa['origin_as2'] == wpfx['origin_as']:
+            vs = "valid"
+            break
+        else:
+            vs = "invalid"
+
     return vs
 # end assignValidityStatus
 
@@ -87,37 +109,27 @@ if __name__ == "__main__":
 
     stats.set('ninvalid', 0)
     stats.set('nvalid', 0)
-    for x in ndb.runsql("SELECT * FROM riswhois WHERE type='{}' AND pfxlen <=24 ".format(type)):
+    stats.set('nunknown', 0)
+    stats.set('nroutes', 0)
+    for x in ndb.runsql("SELECT * FROM riswhois WHERE type='{}' AND pfxlen <={} ".format(type, maxLen)):
+        stats.inc('nroutes')
         rpfx = str(x['prefix'])
-        roas = roadata_pyt.get(rpfx, None)
-        if roas == None:
-            logging.debug("prefix {} has ROV status NOT_FOUND".format( rpfx ))
-        else:
-            rov_status = assignValidityStatus(roas, rpfx)
+        rov_status = assignValidityStatus(roadata_pyt, x)
 
-            if rov_status == "valid":
-                    # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
-                    #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-                    stats.inc('nvalid')
-            elif rov_status == "invalid":
-                    # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
-                    #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-                    stats.inc('ninvalid')
+        if rov_status == "valid":
+                # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
+                #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
+                stats.inc('nvalid')
+        elif rov_status == "invalid":
+                # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
+                #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
+                stats.inc('ninvalid')
+        elif rov_status == "unknown":
+            stats.inc('nunknown')
 
 
-            # for roa in roas:
-            #     # print(roa)
-            #     logging.debug("prefix {} has covering ROA ({}, {})" \
-            #         .format( rpfx, roa['prefix'], roa['origin_as2'] ))
-            #     if roa['origin_as2'] == x['origin_as']: 
-            #         logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
-            #             .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-            #         stats.inc('nvalid')
-            #     else:
-            #         logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
-            #             .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-            #         stats.inc('ninvalid')
-
+    logging.info("Found {} TOTAL routes".format(stats.get('nroutes')) )
     logging.info("Found {} valid routes".format(stats.get('nvalid')) )
     logging.info("Found {} invalid routes".format(stats.get('ninvalid')) )
+    logging.info("Found {} unknown routes".format(stats.get('nunknown')) )
 # end script
