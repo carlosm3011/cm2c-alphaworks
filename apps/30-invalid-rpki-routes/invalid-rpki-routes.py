@@ -123,6 +123,8 @@ if __name__ == "__main__":
         elif rov_status == "invalid":
                 # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
+                logging.info("prefix {} has ROV status INVALID" \
+                     .format( rpfx ) )
                 stats.inc('ninvalid')
         elif rov_status == "unknown":
             stats.inc('nunknown')
