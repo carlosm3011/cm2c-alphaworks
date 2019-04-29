@@ -118,7 +118,6 @@ if __name__ == "__main__":
         stats.inc('nroutes')
         rpfx = str(x['prefix'])
         (rov_status, roas) = assignValidityStatus(roadata_pyt, x)
-        rov_status = assignValidityStatus(roadata_pyt, x)
 
         if rov_status == "valid":
                 # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
