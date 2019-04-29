@@ -67,7 +67,7 @@ def assignValidityStatus(wroas_trie, wpfx):
     
     roas = wroas_trie.get(wpfx['prefix'], None)
     if roas == None:
-        return vs
+        return vs, None
 
     for roa in roas:
         if roa['origin_as2'] == wpfx['origin_as']:
@@ -76,7 +76,7 @@ def assignValidityStatus(wroas_trie, wpfx):
         else:
             vs = "invalid"
 
-    return vs
+    return vs, roas
 # end assignValidityStatus
 
 if __name__ == "__main__":
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     for x in ndb.runsql("SELECT * FROM riswhois WHERE type='{}' AND pfxlen <={} ".format(type, maxLen)):
         stats.inc('nroutes')
         rpfx = str(x['prefix'])
-        rov_status = assignValidityStatus(roadata_pyt, x)
+        (rov_status, roas) = assignValidityStatus(roadata_pyt, x)
 
         if rov_status == "valid":
                 # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
@@ -123,8 +123,8 @@ if __name__ == "__main__":
         elif rov_status == "invalid":
                 # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-                logging.info("prefix {} has ROV status INVALID" \
-                     .format( rpfx ) )
+                logging.info("prefix {} has ROV status INVALID (showing first ROA only), adv_as={}, roa_as={}, roa_pfx={} " \
+                     .format( rpfx, x['origin_as'], roas[0]['origin_as2'], roas[0]['prefix'] ) )
                 stats.inc('ninvalid')
         elif rov_status == "unknown":
             stats.inc('nunknown')
