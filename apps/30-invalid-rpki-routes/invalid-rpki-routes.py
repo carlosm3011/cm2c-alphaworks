@@ -137,4 +137,5 @@ if __name__ == "__main__":
     logging.info("Found {} valid routes".format(stats.get('nvalid')) )
     logging.info("Found {} invalid routes".format(stats.get('ninvalid')) )
     logging.info("Found {} unknown routes".format(stats.get('nunknown')) )
+
 # end script
