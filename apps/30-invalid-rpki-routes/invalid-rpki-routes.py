@@ -75,9 +75,9 @@ def assignValidityStatus(wroas_trie, wpfx):
                 vs = "valid"
                 break
             else:
-                vs = "invalid"
+                vs = "invalid_maxlen"
         else:
-            vs = "invalid"
+            vs = "invalid_wrongasn"
 
     return vs, roas
 # end assignValidityStatus
@@ -123,11 +123,11 @@ if __name__ == "__main__":
                 # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
                 stats.inc('nvalid')
-        elif rov_status == "invalid":
+        elif rov_status.startswith("invalid"):
                 # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-                logging.info("prefix {} has ROV status INVALID (showing first ROA only), adv_as={}, roa_as={}, roa_pfx={} " \
-                     .format( rpfx, x['origin_as'], roas[0]['origin_as2'], roas[0]['prefix'] ) )
+                logging.info("prefix {} has ROV status {} (showing first ROA only), adv_as={}, roa_as={}, roa_pfx={}, roa_maxlen={} " \
+                     .format( rpfx, rov_status.upper(), x['origin_as'], roas[0]['origin_as2'], roas[0]['prefix'], roas[0]['maxlen'] ) )
                 stats.inc('ninvalid')
         elif rov_status == "unknown":
             stats.inc('nunknown')
