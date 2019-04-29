@@ -71,8 +71,11 @@ def assignValidityStatus(wroas_trie, wpfx):
 
     for roa in roas:
         if roa['origin_as2'] == wpfx['origin_as']:
-            vs = "valid"
-            break
+            if wpfx['pfxlen']>=roa['pfxlen'] and wpfx['pfxlen']<=roa['maxlen']: 
+                vs = "valid"
+                break
+            else:
+                vs = "invalid"
         else:
             vs = "invalid"
 
@@ -123,7 +126,7 @@ if __name__ == "__main__":
         elif rov_status == "invalid":
                 # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
-                logging.info("prefix {} has ROV status INVALID" \
+                logging.info("route to prefix {} has ROV status INVALID" \
                      .format( rpfx ) )
                 stats.inc('ninvalid')
         elif rov_status == "unknown":
