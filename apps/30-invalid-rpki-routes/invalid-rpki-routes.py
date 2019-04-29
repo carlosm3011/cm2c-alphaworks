@@ -71,8 +71,11 @@ def assignValidityStatus(wroas_trie, wpfx):
 
     for roa in roas:
         if roa['origin_as2'] == wpfx['origin_as']:
-            vs = "valid"
-            break
+            if wpfx['pfxlen']>=roa['pfxlen'] and wpfx['pfxlen']<=roa['maxlen']: 
+                vs = "valid"
+                break
+            else:
+                vs = "invalid"
         else:
             vs = "invalid"
 
@@ -115,6 +118,7 @@ if __name__ == "__main__":
         stats.inc('nroutes')
         rpfx = str(x['prefix'])
         (rov_status, roas) = assignValidityStatus(roadata_pyt, x)
+        rov_status = assignValidityStatus(roadata_pyt, x)
 
         if rov_status == "valid":
                 # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
