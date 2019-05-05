@@ -93,6 +93,15 @@ class rdap_client:
             return jr
     # end get_poc ##########################################################################################
 
+    # bgn prefixToOrgid ####################################################################################
+    def prefixToOrgid(self, w_prefix):
+        # jq query: .entities[0].handle
+        self.res = self.rdap_query("ip", w_prefix)
+        jq = ".entities[0].handle"
+        res = self._pyjq(jq, self.last_response)
+        return res
+    # end prefixToOrgid ####################################################################################
+
     # rdap query ###########################################################################################
     def rdap_query(self, w_type, w_query):
 
@@ -126,12 +135,24 @@ class rdap_client:
 # cli #######################################################################################
 @click.command()
 @click.option("--query", help="String to query RDAP for.")
-@click.option("--type", "rdap_type", help="RDAP query type, one of autnum, ip or entity")
+@click.option("--type", default=None, help="RDAP query type, one of autnum, ip or entity")
 @click.option("--host", default="https://rdap.lacnic.net/rdap", help="RDAP server to query. Optional, defaults to LACNIC")
-def cli(query, rdap_type, host):
+@click.option("--advquery", default=None, help="Get ORGID of given prefix.")
+def cli(query, type, host, advquery):
         rdapc = rdap_client(host)
-        res = rdapc.rdap_query(rdap_type, query)
-        print( json.dumps(res, indent=3, sort_keys=True) )
+        if type in ['ip', 'autnum', 'entity']:
+            res = rdapc.rdap_query(type, query)
+            print( json.dumps(res, indent=3, sort_keys=True) )
+        elif advquery in ['prefixToOrgid'] :
+            res = rdapc.prefixToOrgid(query)
+            out = "{prefix},{orgid}".format(prefix=query, orgid=res)
+            print(out)
+        else:
+            print("Wrong combination of query and advquery. Plase use: ")
+            print("\ttype = ip | autnum | entity")
+            print(" OR ")
+            print("\tadvquery = prefixToOrgid")
+
         # print (str(res))
 ## end cli ##################################################################################
 

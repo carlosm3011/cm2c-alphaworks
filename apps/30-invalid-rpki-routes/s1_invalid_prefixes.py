@@ -11,6 +11,7 @@ import logging
 import fire
 import collections
 import pysnooper
+import csv
 
 dbfile = "../../data/netdata-latest.db"
 # cc = 'AR'
@@ -114,6 +115,12 @@ if __name__ == "__main__":
     stats.set('nvalid', 0)
     stats.set('nunknown', 0)
     stats.set('nroutes', 0)
+
+    # open file for csv export
+    csvfile = open("s1_invalid_prefixes.csv", "w")
+    csv_export = csv.writer(csvfile, dialect='excel', delimiter='|')
+    csv_export.writerow(["Prefix", "Status", "OriginAS", "ROAAS", "ROAPrefix", "MaxLen"])
+
     for x in ndb.runsql("SELECT * FROM riswhois WHERE type='{}' AND pfxlen <={} ".format(type, maxLen)):
         stats.inc('nroutes')
         rpfx = str(x['prefix'])
@@ -124,18 +131,23 @@ if __name__ == "__main__":
                 #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
                 stats.inc('nvalid')
         elif rov_status.startswith("invalid"):
-                # logging.info("prefix {} has ROV status INVALID, rt_as={}, roa_as={}, roa_pfx={}" \
-                #     .format( rpfx, x['origin_as'], roa['origin_as2'], roa['prefix'] ) )
                 logging.info("prefix {} has ROV status {} (showing first ROA only), adv_as={}, roa_as={}, roa_pfx={}, roa_maxlen={} " \
                      .format( rpfx, rov_status.upper(), x['origin_as'], roas[0]['origin_as2'], roas[0]['prefix'], roas[0]['maxlen'] ) )
                 stats.inc('ninvalid')
+                # csvrow = "{prefix} | {status} | {adv_as} " \
+                #   .format(prefix=rpfx, status=rov_status.upper(), adv_as=x['origin_as']) 
+                csvrow = [rpfx, rov_status.upper(), x['origin_as'], roas[0]['origin_as2'], roas[0]['prefix'], roas[0]['maxlen'] ]
+                csv_export.writerow(csvrow)
         elif rov_status == "unknown":
             stats.inc('nunknown')
+    # END FOR X
 
 
     logging.info("Found {} TOTAL routes".format(stats.get('nroutes')) )
     logging.info("Found {} valid routes".format(stats.get('nvalid')) )
     logging.info("Found {} invalid routes".format(stats.get('ninvalid')) )
     logging.info("Found {} unknown routes".format(stats.get('nunknown')) )
+
+    csvfile.close()
 
 # end script
