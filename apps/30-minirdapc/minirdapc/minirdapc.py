@@ -14,12 +14,16 @@ import datetime
 import time
 import pyjq
 import json
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 class rdap_client:
 
     # Default constructor
-    def __init__(self, w_base_url, w_cache_file='var/rdap_cache.db'):
+    def __init__(self, w_base_url, w_apikey=None ,w_cache_file='var/rdap_cache.db'):
         self.base_url = w_base_url
+        self.apikey = w_apikey
         self.rdap_cache = shelve.open(w_cache_file)
         self.max_cache_time = 60
         self.last_response = None
@@ -109,7 +113,13 @@ class rdap_client:
             raise ValueError("Wrong query type")
 
         try:
-            rdap_uri = "/"+w_type+"/"+w_query
+            if self.apikey:
+                # rdap_uri = "/"+w_type+"/"+w_query+"?apikey="+self.apikey
+                rdap_uri = "/{type}/{query}?apikey={apikey}" \
+                    .format(type=w_type, query=w_query, apikey=self.apikey)
+            else:
+                rdap_uri = "/"+w_type+"/"+w_query
+            logging.debug("rdap_uri={}".format(rdap_uri))
             # first check if answer is available in local cache and fresh enough
             cached_r = self.rdap_cache.get(rdap_uri, { 'json': None, 'timestamp': 0, 'hits': 0})
             if cached_r['json'] == None or (cached_r['timestamp'] - time.time()) > self.max_cache_time:
@@ -138,8 +148,9 @@ class rdap_client:
 @click.option("--type", default=None, help="RDAP query type, one of autnum, ip or entity")
 @click.option("--host", default="https://rdap.lacnic.net/rdap", help="RDAP server to query. Optional, defaults to LACNIC")
 @click.option("--advquery", default=None, help="Get ORGID of given prefix.")
-def cli(query, type, host, advquery):
-        rdapc = rdap_client(host)
+@click.option("--apikey", default=None, help="Optional: API Key for LACNIC, used to bypass rate limits.")
+def cli(query, type, host, advquery, apikey):
+        rdapc = rdap_client(host, apikey)
         if type in ['ip', 'autnum', 'entity']:
             res = rdapc.rdap_query(type, query)
             print( json.dumps(res, indent=3, sort_keys=True) )
