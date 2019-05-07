@@ -25,7 +25,7 @@ class rdap_client:
         self.base_url = w_base_url
         self.apikey = w_apikey
         self.rdap_cache = shelve.open(w_cache_file)
-        self.max_cache_time = 60
+        self.max_cache_time = 60*3600 # cache validity in seconds
         self.last_response = None
     # end default constructor
 
@@ -102,7 +102,14 @@ class rdap_client:
         # jq query: .entities[0].handle
         self.res = self.rdap_query("ip", w_prefix)
         jq = ".entities[0].handle"
-        res = self._pyjq(jq, self.last_response)
+        try:
+            res = self._pyjq(jq, self.last_response)
+        except pyjq._pyjq.ScriptRuntimeError:
+            res = "ORGID-NOTFOUND"
+            logging.debug("ORGID for prefix {} not found, current JSON is {}" \
+                .format(w_prefix, self.last_response))
+        except:
+            raise
         return res
     # end prefixToOrgid ####################################################################################
 

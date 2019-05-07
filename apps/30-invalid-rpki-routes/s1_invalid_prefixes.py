@@ -63,12 +63,14 @@ class counters:
 
 # begin assignValidityStatus
 # @pysnooper.snoop(depth=2)
-def assignValidityStatus(wroas_trie, wpfx):
+def assignValidityStatus(wroas_trie, wpfx, depth=1):
     vs = "unknown"
     
     roas = wroas_trie.get(wpfx['prefix'], None)
     if roas == None:
         return vs, None
+
+    
 
     for roa in roas:
         if roa['origin_as2'] == wpfx['origin_as']:
