@@ -70,17 +70,34 @@ def assignValidityStatus(wroas_trie, wpfx, depth=1):
     if roas == None:
         return vs, None
 
-    
+    # walk up the tree some levels
+    roa_subtree = [ roas[0]['prefix'] ]
+    d = 0
+    while d<depth:
+        d = d + 1
+        roapfx = roa_subtree[-1]
+        roa_parent_key = wroas_trie.parent(roapfx)
+        if roa_parent_key:
+            roa_subtree.append(roa_parent_key)
+    # end while
 
-    for roa in roas:
-        if roa['origin_as2'] == wpfx['origin_as']:
-            if wpfx['pfxlen']>=roa['pfxlen'] and wpfx['pfxlen']<=roa['maxlen']: 
-                vs = "valid"
-                break
+    # for roa in roas:
+    for roa_key in roa_subtree:
+        roas = wroas_trie.get(roa_key)
+        for roa in roas:
+            # print("roa: {}".format(roa))
+            if roa['origin_as2'] == wpfx['origin_as']:
+                if wpfx['pfxlen']>=roa['pfxlen'] and wpfx['pfxlen']<=roa['maxlen']: 
+                    vs = "valid"
+                    break
+                else:
+                    vs = "invalid_maxlen"
             else:
-                vs = "invalid_maxlen"
-        else:
-            vs = "invalid_wrongasn"
+                vs = "invalid_wrongasn"
+        # end for roa
+        if vs == "valid":
+            break
+    # end for roa_key
 
     return vs, roas
 # end assignValidityStatus
@@ -126,7 +143,7 @@ if __name__ == "__main__":
     for x in ndb.runsql("SELECT * FROM riswhois WHERE type='{}' AND pfxlen <={} ".format(type, maxLen)):
         stats.inc('nroutes')
         rpfx = str(x['prefix'])
-        (rov_status, roas) = assignValidityStatus(roadata_pyt, x)
+        (rov_status, roas) = assignValidityStatus(roadata_pyt, x, 4)
 
         if rov_status == "valid":
                 # logging.debug("prefix {} has ROV status VALID, rt_as={}, roa_as={}, roa_pfx={}" \
