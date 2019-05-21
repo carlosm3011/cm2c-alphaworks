@@ -7,6 +7,13 @@
 
 Identificar las organizaciones asociadas a LACNIC que están realizando anuncios de recursos en Internet vía BGP que actualmente serían invalidados por un router que implementara “*routing origin validation*”.
 
+
+
+## Fuentes de datos:
+
+1. netdata v1 (latest)
+2. RDAP (live)
+
 ## Descripción del pipeline:
 
 El pipeline consta de 4 pasos y sería así:
