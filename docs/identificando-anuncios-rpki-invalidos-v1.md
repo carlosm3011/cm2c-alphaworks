@@ -47,3 +47,22 @@ Los productos de este pipeline son:
 Están disponibles en:
 
 *TBA
+
+## Referencia
+
+[1] Schema de netdata v1
+
+
+
+```sqlite
+sqlite> .schema
+
+CREATE TABLE numres (id INTEGER PRIMARY KEY, rir text, cc text, type text, block text, length integer, date integer, status text, orgid integer, istart INTEGER, iend INTEGER, prefix VARCHAR(80), equiv INTEGER);
+
+CREATE TABLE roadata (id INTEGER PRIMARY KEY, origin_as text, prefix text, maxlen integer, ta text, origin_as2 VARCHAR(10), istart UNSIGNED BIG INT, iend UNSIGNED BIG INT, type VARCHAR(5), pfxlen INTEGER, equiv INTEGER);
+
+
+CREATE TABLE riswhois (id INTEGER PRIMARY KEY, origin_as text, prefix text, viewed_by integer, istart UNSIGNED BIG INT, iend UNSIGNED BIG INT, type VARCHAR(5), pfxlen INTEGER);
+
+```
+
