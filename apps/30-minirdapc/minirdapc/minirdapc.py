@@ -14,14 +14,18 @@ import datetime
 import time
 import pyjq
 import json
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 class rdap_client:
 
     # Default constructor
-    def __init__(self, w_base_url, w_cache_file='var/rdap_cache.db'):
+    def __init__(self, w_base_url, w_apikey=None ,w_cache_file='var/rdap_cache.db'):
         self.base_url = w_base_url
+        self.apikey = w_apikey
         self.rdap_cache = shelve.open(w_cache_file)
-        self.max_cache_time = 60
+        self.max_cache_time = 60*3600 # cache validity in seconds
         self.last_response = None
     # end default constructor
 
@@ -93,6 +97,22 @@ class rdap_client:
             return jr
     # end get_poc ##########################################################################################
 
+    # bgn prefixToOrgid ####################################################################################
+    def prefixToOrgid(self, w_prefix):
+        # jq query: .entities[0].handle
+        self.res = self.rdap_query("ip", w_prefix)
+        jq = ".entities[0].handle"
+        try:
+            res = self._pyjq(jq, self.last_response)
+        except pyjq._pyjq.ScriptRuntimeError:
+            res = "ORGID-NOTFOUND"
+            logging.debug("ORGID for prefix {} not found, current JSON is {}" \
+                .format(w_prefix, self.last_response))
+        except:
+            raise
+        return res
+    # end prefixToOrgid ####################################################################################
+
     # rdap query ###########################################################################################
     def rdap_query(self, w_type, w_query):
 
@@ -100,7 +120,13 @@ class rdap_client:
             raise ValueError("Wrong query type")
 
         try:
-            rdap_uri = "/"+w_type+"/"+w_query
+            if self.apikey:
+                # rdap_uri = "/"+w_type+"/"+w_query+"?apikey="+self.apikey
+                rdap_uri = "/{type}/{query}?apikey={apikey}" \
+                    .format(type=w_type, query=w_query, apikey=self.apikey)
+            else:
+                rdap_uri = "/"+w_type+"/"+w_query
+            logging.debug("rdap_uri={}".format(rdap_uri))
             # first check if answer is available in local cache and fresh enough
             cached_r = self.rdap_cache.get(rdap_uri, { 'json': None, 'timestamp': 0, 'hits': 0})
             if cached_r['json'] == None or (cached_r['timestamp'] - time.time()) > self.max_cache_time:
@@ -126,12 +152,25 @@ class rdap_client:
 # cli #######################################################################################
 @click.command()
 @click.option("--query", help="String to query RDAP for.")
-@click.option("--type", "rdap_type", help="RDAP query type, one of autnum, ip or entity")
+@click.option("--type", default=None, help="RDAP query type, one of autnum, ip or entity")
 @click.option("--host", default="https://rdap.lacnic.net/rdap", help="RDAP server to query. Optional, defaults to LACNIC")
-def cli(query, rdap_type, host):
-        rdapc = rdap_client(host)
-        res = rdapc.rdap_query(rdap_type, query)
-        print( json.dumps(res, indent=3, sort_keys=True) )
+@click.option("--advquery", default=None, help="Get ORGID of given prefix.")
+@click.option("--apikey", default=None, help="Optional: API Key for LACNIC, used to bypass rate limits.")
+def cli(query, type, host, advquery, apikey):
+        rdapc = rdap_client(host, apikey)
+        if type in ['ip', 'autnum', 'entity']:
+            res = rdapc.rdap_query(type, query)
+            print( json.dumps(res, indent=3, sort_keys=True) )
+        elif advquery in ['prefixToOrgid'] :
+            res = rdapc.prefixToOrgid(query)
+            out = "{prefix},{orgid}".format(prefix=query, orgid=res)
+            print(out)
+        else:
+            print("Wrong combination of query and advquery. Plase use: ")
+            print("\ttype = ip | autnum | entity")
+            print(" OR ")
+            print("\tadvquery = prefixToOrgid")
+
         # print (str(res))
 ## end cli ##################################################################################
 

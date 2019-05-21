@@ -1,0 +1,3 @@
+alphaworks.git,COMMIT
+routinator.git,NOCOMMIT
+xt6-minirdapc.git,COMMIT

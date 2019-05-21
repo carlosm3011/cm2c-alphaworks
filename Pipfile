@@ -6,9 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pytricia = "*"
-fire = "*"
-pysnooper = "*"
 
 [requires]
 python_version = "3.7"
