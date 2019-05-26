@@ -12,8 +12,8 @@ class TestRdapC(unittest.TestCase):
 
     def setUp(self):
         try:
-            from minirdapc import minirdapc
-            self.rdapc = minirdapc.rdap_client("https://rdap.lacnic.net/rdap")
+            from minirdapc.rdap_client import rdap_client
+            self.rdapc = rdap_client("https://rdap.lacnic.net/rdap")
             self.r = True
         except:
             self.r = False
