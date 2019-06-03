@@ -17,6 +17,13 @@ class rdap_client:
 
     # Default constructor
     def __init__(self, w_base_url, w_apikey=None ,w_cache_file='var/rdap_cache.db'):
+        """Class constructor.
+
+        This is the default class constructor. Expected parameters are:
+
+        
+         
+        """
         self.base_url = w_base_url
         self.apikey = w_apikey
         self.rdap_cache = shelve.open(w_cache_file)
@@ -31,6 +38,10 @@ class rdap_client:
 
     # http_get
     def rdap_http_get(self, w_uri):
+        """
+        Simple HTTP get to be used as part of the RDAP client. It expects the return of the GET method
+        to be valid JSON.
+        """
         try:
             rdap_url = self.base_url + w_uri
             print(rdap_url)

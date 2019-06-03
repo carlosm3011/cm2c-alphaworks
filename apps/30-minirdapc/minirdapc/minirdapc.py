@@ -20,8 +20,6 @@ from rdap_client import rdap_client
 
 logging.basicConfig(level=logging.DEBUG)
 
-
-
 def print_banner(short=False):
     print("")
     print("MINI RDAP CLIENT: (c) Carlos Martinez, carlos@xt6.us")
