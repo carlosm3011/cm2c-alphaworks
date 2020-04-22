@@ -12,14 +12,20 @@ Identificar las organizaciones asociadas a LACNIC que están realizando anuncios
 ## Fuentes de datos:
 
 1. netdata v1 (latest)
-2. RDAP (live)
+
+   1. http://trantor.labs.lacnic.net/carlos/netdata
+
+2. RDAP (live, usando API key para evitar rate limit)
+
+   
 
 ## Descripción del pipeline:
 
 El pipeline consta de 4 pasos y sería así:
 
-- bajar la ultima version del netdata
-- generar el netdata.db (esto tiene su propio pipeline)
+
+
+- bajar la última versión del netdata.db (esto tiene su propio pipeline)
 - - *script: s0_get_netdatadb*
   - *salida: netdata-latest.db*
 
